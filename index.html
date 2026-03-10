@@ -654,17 +654,17 @@ const DATA = {
             { start: 6, end: 10 } // "to create his own equipment"
           ]
         },
-        {
-          id: "p2s4",
-          // 0:After 1:a 2:long 3:series 4:of 5:failed 6:attempts 7:he 8:finally 9:succeeded 10:in 11:developing 12:a 13:portable 14:breathing 15:device 16:which 17:he 18:called 19:the 20:Aqua-Lung
-          text: "After a long series of failed attempts, he finally succeeded in developing a portable breathing device, which he called the \"Aqua-Lung.\"",
-          verbs: ["succeeded", "called"],
-          modifiers: [
-            { start: 0, end: 6 },  // "After a long series of failed attempts"
-            { start: 10, end: 15 }, // "in developing a portable breathing device"
-            { start: 16, end: 20 } // "which he called the Aqua-Lung"
-          ]
-        }
+{
+  id: "p2s4",
+  text: "After a long series of failed attempts, he finally succeeded in developing a portable breathing device, which he called the \"Aqua-Lung.\"",
+  // 본동사인 succeeded 하나만 정답으로 인정
+  verbs: ["succeeded"], 
+  modifiers: [
+    { start: 0, end: 6 },  // 전치사구 (수식어)
+    { start: 10, end: 15 }, // 전치사+동명사구 (수식어)
+    { start: 16, end: 20 }  // 관계대명사절 (수식어)
+  ]
+}
       ]
     },
     {
