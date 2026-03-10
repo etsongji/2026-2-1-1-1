@@ -702,15 +702,15 @@ const DATA = {
             { start: 16, end: 21 } // "to make the impossible a reality"
           ]
         },
-        {
-          id: "p3s4",
-          // 0:Cousteau's 1:life 2:story 3:inspired 4:me 5:to 6:push 7:the 8:boundaries 9:of 10:what 11:I 12:can 13:do
-          text: "Cousteau's life story inspired me to push the boundaries of what I can do.",
-          verbs: ["inspired", "can do"],
-          modifiers: [
-            { start: 5, end: 13 } // "to push the boundaries of what I can do"
-          ]
-        }
+{
+  id: "p3s4",
+  text: "Cousteau's life story inspired me to push the boundaries of what I can do.",
+  // 사용자님의 의견대로 문장의 본동사인 inspired 하나만 정답으로 설정합니다.
+  verbs: ["inspired"], 
+  modifiers: [
+    { start: 5, end: 13 } // "to push ~ can do" 전체를 목적격 보어 및 수식어로 처리
+  ]
+}
       ]
     }
   ]
