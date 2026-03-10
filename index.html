@@ -56,12 +56,6 @@
   }
   .logo span { color: var(--text-dim); font-weight: 400; }
 
-  .header-controls {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-
   /* === LAYOUT === */
   .container {
     max-width: 900px;
@@ -69,7 +63,6 @@
     padding: 32px 24px 80px;
   }
 
-  /* === HERO === */
   .hero {
     text-align: center;
     margin-bottom: 36px;
@@ -88,34 +81,8 @@
     line-height: 1.6;
   }
 
-  /* === LEGEND === */
-  .legend {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    color: var(--text-dim);
-  }
-  .legend-swatch {
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .legend-swatch.v { background: var(--verb-bg); color: var(--verb-color); border: 1px solid var(--verb-border); }
-
   /* === PART SECTION === */
-  .part-section {
-    margin-bottom: 32px;
-  }
+  .part-section { margin-bottom: 32px; }
   .part-header {
     display: flex;
     align-items: center;
@@ -133,124 +100,8 @@
     background: var(--surface2);
     color: var(--accent);
     border: 1px solid var(--border);
-    letter-spacing: 1px;
   }
-  .part-title {
-    font-size: 13px;
-    color: var(--text-dim);
-    font-weight: 500;
-  }
-  .part-score {
-    margin-left: auto;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--text-dim);
-  }
-
-  /* === QUIZ BLOCK === */
-  .quiz-block {
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px dashed var(--border);
-  }
-  .quiz-underline {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin-bottom: 9px;
-    flex-wrap: wrap;
-  }
-  .quiz-underline-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    font-weight: 600;
-    color: #fff;
-    background: #374151;
-    padding: 2px 6px;
-    border-radius: 3px;
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
-  }
-  .quiz-underline-text {
-    font-family: 'Libre Baskerville', serif;
-    font-size: 13px;
-    color: var(--text);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 2px;
-    text-decoration-color: #374151;
-    font-style: italic;
-  }
-  .quiz-question {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 10px;
-    line-height: 1.5;
-  }
-  .quiz-options {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 10px;
-  }
-  .quiz-opt {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    border-radius: 7px;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    color: var(--text);
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 12px;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.15s;
-    line-height: 1.4;
-  }
-  .quiz-opt:hover:not(.correct):not(.wrong) {
-    border-color: var(--accent);
-    background: rgba(37,99,235,0.06);
-    color: var(--accent);
-  }
-  .quiz-opt .opt-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 700;
-    flex-shrink: 0;
-    color: var(--text-dim);
-  }
-  .quiz-opt.correct {
-    border-color: var(--correct);
-    background: rgba(22,163,74,0.08);
-    color: var(--correct);
-    font-weight: 600;
-    cursor: default;
-  }
-  .quiz-opt.correct .opt-label { color: var(--correct); }
-  .quiz-opt.wrong {
-    border-color: var(--wrong);
-    background: rgba(220,38,38,0.07);
-    color: var(--wrong);
-    cursor: default;
-    text-decoration: line-through;
-    opacity: 0.75;
-  }
-  .quiz-opt.wrong .opt-label { color: var(--wrong); }
-  .quiz-explanation {
-    font-size: 12px;
-    color: #4b5563;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-left: 3px solid var(--accent);
-    border-radius: 6px;
-    padding: 9px 12px;
-    line-height: 1.6;
-    display: none;
-  }
-  .quiz-explanation.show { display: block; }
+  .part-title { font-size: 13px; color: var(--text-dim); font-weight: 500; }
 
   /* === SENTENCE CARD === */
   .sentence-card {
@@ -258,37 +109,17 @@
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 16px 18px;
-    margin-bottom: 10px;
-    transition: border-color 0.2s;
+    margin-bottom: 14px;
     position: relative;
   }
-  .sentence-card:hover { border-color: #b0bcd4; }
   .sentence-num {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
     color: var(--text-dim);
     margin-bottom: 8px;
-    letter-spacing: 0.5px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-  }
-  .card-reset-btn {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-dim);
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: 0;
-  }
-  .card-reset-btn:hover {
-    border-color: var(--wrong);
-    color: var(--wrong);
-    background: rgba(220,38,38,0.06);
+    align-items: center;
   }
   .verb-count-badge {
     font-family: 'JetBrains Mono', monospace;
@@ -299,7 +130,6 @@
     background: var(--verb-bg);
     color: var(--verb-color);
     border: 1px solid var(--verb-border);
-    letter-spacing: 0;
   }
   .sentence-text {
     font-family: 'Libre Baskerville', serif;
@@ -309,12 +139,9 @@
     user-select: none;
     cursor: crosshair;
   }
-
-  /* Word tokens */
   .word-token {
     display: inline;
     border-radius: 3px;
-    transition: background 0.15s;
     padding: 1px 0;
     white-space: pre-wrap;
   }
@@ -323,198 +150,41 @@
     color: var(--verb-color);
     border-bottom: 2px solid var(--verb-border);
     font-weight: 700;
-    padding: 1px 3px;
   }
 
-  /* hover hint */
-  .word-token:hover { opacity: 0.85; }
-
-  /* result overlay */
-  .card-result {
-    position: absolute;
-    top: 10px;
-    right: 14px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    opacity: 0;
-    transition: opacity 0.3s;
+  /* === QUIZ BLOCK === */
+  .quiz-block {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
   }
-  .card-result.show { opacity: 1; }
-  .card-result.correct { color: var(--correct); }
-  .card-result.partial { color: var(--gold); }
-  .card-result.wrong { color: var(--wrong); }
+  .quiz-underline { display: flex; align-items: baseline; gap: 8px; margin-bottom: 9px; }
+  .quiz-underline-label { font-size: 9px; color: #fff; background: #374151; padding: 2px 6px; border-radius: 3px; }
+  .quiz-underline-text { font-family: 'Libre Baskerville', serif; font-size: 13px; text-decoration: underline; font-style: italic; }
+  .quiz-options { display: flex; flex-direction: column; gap: 6px; }
+  .quiz-opt {
+    padding: 8px 12px; border-radius: 7px; border: 1px solid var(--border);
+    background: var(--surface2); font-size: 12px; text-align: left; cursor: pointer;
+  }
+  .quiz-opt.correct { border-color: var(--correct); background: rgba(22,163,74,0.08); color: var(--correct); }
+  .quiz-opt.wrong { border-color: var(--wrong); background: rgba(220,38,38,0.07); color: var(--wrong); text-decoration: line-through; }
+  .quiz-explanation { font-size: 12px; color: #4b5563; background: #f9fafb; border-left: 3px solid var(--accent); padding: 9px 12px; margin-top: 8px; display: none; }
+  .quiz-explanation.show { display: block; }
 
   /* === BOTTOM BAR === */
   .bottom-bar {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: rgba(244,246,251,0.95);
-    backdrop-filter: blur(12px);
-    border-top: 1px solid var(--border);
-    padding: 12px 24px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    z-index: 100;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(244,246,251,0.95); backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border); padding: 12px 24px;
+    display: flex; align-items: center; gap: 14px; z-index: 100;
   }
-
-  .check-btn {
-    padding: 9px 22px;
-    border-radius: 7px;
-    border: none;
-    background: var(--accent);
-    color: #fff;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .check-btn:hover { background: #3a8ef0; transform: translateY(-1px); }
-
-  .reset-btn {
-    padding: 9px 16px;
-    border-radius: 7px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-dim);
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .reset-btn:hover { border-color: #3a4560; color: var(--text); }
-
-  .score-display {
-    flex: 1;
-    text-align: right;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--text-dim);
-  }
-  .score-display .score-val {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--correct);
-    margin-left: 8px;
-  }
-
-  /* === MODAL === */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-  }
-  .modal-overlay.show { opacity: 1; pointer-events: all; }
-  .modal {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-    max-width: 440px;
-    width: 90%;
-    text-align: center;
-    transform: translateY(20px);
-    transition: transform 0.3s;
-  }
-  .modal-overlay.show .modal { transform: translateY(0); }
-  .modal-emoji { font-size: 48px; margin-bottom: 16px; }
-  .modal-title {
-    font-family: 'Libre Baskerville', serif;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .modal-score {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 40px;
-    font-weight: 600;
-    color: var(--correct);
-    margin: 16px 0;
-  }
-  .modal-sub {
-    font-size: 13px;
-    color: var(--text-dim);
-    line-height: 1.6;
-    margin-bottom: 24px;
-  }
-  .modal-close {
-    padding: 10px 28px;
-    border-radius: 8px;
-    border: none;
-    background: var(--accent);
-    color: #fff;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  .modal-close:hover { background: #3a8ef0; }
-
-  /* === INSTRUCTIONS === */
-  .instructions {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin-bottom: 28px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  @media (max-width: 600px) { .instructions { grid-template-columns: 1fr; } }
-  .inst-item {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-  .inst-icon {
-    font-size: 18px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .inst-text { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
-  .inst-text strong { color: var(--text); }
-
-  /* === PROGRESS BAR === */
-  .progress-wrap { flex: 1; }
-  .progress-label {
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-bottom: 4px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .progress-bar {
-    height: 4px;
-    background: var(--surface2);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 2px;
-    transition: width 0.4s ease;
-    width: 0%;
-  }
+  .check-btn { padding: 9px 22px; border-radius: 7px; border: none; background: var(--accent); color: #fff; font-weight: 700; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">Sentence<span>/</span>Scanner</div>
-  <div class="header-controls">
-    <span style="font-size:12px; color:var(--text-dim); font-family:'JetBrains Mono',monospace;">더블클릭 → 동사 [V] 표시</span>
-  </div>
 </header>
 
 <div class="container">
@@ -522,302 +192,64 @@
     <h1>My Role Model: <em>Jacques Cousteau</em></h1>
     <p>각 문장에서 <strong>동사(V)</strong>를 찾아 더블클릭으로 표시하세요.</p>
   </div>
-
-  <div class="instructions">
-    <div class="inst-item">
-      <div class="inst-icon">🎯</div>
-      <div class="inst-text"><strong>동사 찾기</strong><br>단어를 <strong>더블클릭</strong>하면 빨간색 [V] 표시 / 다시 클릭하면 해제</div>
-    </div>
-    <div class="inst-item">
-      <div class="inst-icon">✅</div>
-      <div class="inst-text"><strong>정답 확인</strong><br>하단 버튼으로 교사 정답과 <strong>일치율 %</strong> 확인</div>
-    </div>
-    <div class="inst-item">
-      <div class="inst-icon">📝</div>
-      <div class="inst-text"><strong>문법 퀴즈</strong><br>각 문장 아래 <strong>3지선다</strong> 문법 문제 풀기</div>
-    </div>
-    <div class="inst-item">
-      <div class="inst-icon">🔄</div>
-      <div class="inst-text"><strong>초기화</strong><br>문장별 또는 전체 <strong>초기화</strong> 가능</div>
-    </div>
-  </div>
-
   <div id="sentenceContainer"></div>
 </div>
 
 <div class="bottom-bar">
   <button class="check-btn" onclick="checkAnswers()">✓ 정답 확인</button>
-  <button class="reset-btn" onclick="resetAll()">↺ 전체 초기화</button>
-  <div class="progress-wrap">
-    <div class="progress-label" id="progressLabel">0 / 0 마킹 완료</div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-  </div>
-  <div class="score-display" id="scoreDisplay" style="display:none;">
-    정확도 <span class="score-val" id="scoreVal">0%</span>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-emoji" id="modalEmoji">🎉</div>
-    <div class="modal-title" id="modalTitle">분석 완료!</div>
-    <div class="modal-score" id="modalScore">0%</div>
-    <div class="modal-sub" id="modalSub"></div>
-    <button class="modal-close" onclick="closeModal()">결과 확인하기</button>
-  </div>
+  <div id="scoreDisplay" style="margin-left:auto; font-weight:700;"></div>
 </div>
 
 <script>
-// ===== DATA =====
-// Jacques Cousteau — Role Model Essay
-// word index = 0-based, spaces excluded
 const DATA = {
   parts: [
     {
-      id: "part1",
-      label: "PART 1",
-      title: "Jacques Cousteau 소개 — 동격어구·관계대명사",
+      id: "part1", label: "PART 1", title: "Introduction",
       sentences: [
-        {
-          id: "p1s1",
-          // 0:My 1:role 2:model 3:is 4:Jacques 5:Cousteau 6:a 7:French 8:ocean 9:explorer 10:inventor 11:and 12:filmmaker
-          text: "My role model is Jacques Cousteau, a French ocean explorer, inventor, and filmmaker.",
-          verbs: ["is"],
-          modifiers: [
-            { start: 6, end: 12 } // "a French ocean explorer, inventor, and filmmaker" (동격)
-          ]
-        },
-        {
-          id: "p1s2",
-          // 0:He 1:dedicated 2:his 3:life 4:to 5:exploring 6:and 7:documenting 8:the 9:wonders 10:of 11:the 12:underwater 13:world
-          text: "He dedicated his life to exploring and documenting the wonders of the underwater world.",
-          verbs: ["dedicated"],
-          modifiers: [
-            { start: 4, end: 7 },  // "to exploring and documenting"
-            { start: 10, end: 13 } // "of the underwater world"
-          ]
-        },
-        {
-          id: "p1s3",
-          // 0:As 1:a 2:young 3:man 4:he 5:dreamed 6:of 7:becoming 8:a 9:pilot 10:but 11:then 12:he 13:broke 14:both 15:of 16:his 17:arms 18:in 19:a 20:terrible 21:car 22:accident
-          text: "As a young man, he dreamed of becoming a pilot, but then he broke both of his arms in a terrible car accident.",
-          verbs: ["dreamed", "broke"],
-          modifiers: [
-            { start: 0, end: 3 },  // "As a young man"
-            { start: 6, end: 9 },  // "of becoming a pilot"
-            { start: 15, end: 17 }, // "of his arms"
-            { start: 18, end: 22 } // "in a terrible car accident"
-          ]
-        },
-        {
-          id: "p1s4",
-          // 0:As 1:part 2:of 3:his 4:physical 5:therapy 6:Cousteau 7:began 8:swimming
-          text: "As part of his physical therapy, Cousteau began swimming.",
-          verbs: ["began"],
-          modifiers: [
-            { start: 0, end: 5 } // "As part of his physical therapy"
-          ]
-        }
+        { id: "p1s1", text: "My role model is Jacques Cousteau, a French ocean explorer, inventor, and filmmaker.", verbs: ["is"] },
+        { id: "p1s2", text: "He dedicated his life to exploring and documenting the wonders of the underwater world.", verbs: ["dedicated"] },
+        { id: "p1s3", text: "As a young man, he dreamed of becoming a pilot, but then he broke both of his arms in a terrible car accident.", verbs: ["dreamed", "broke"] }
       ]
     },
     {
-      id: "part2",
-      label: "PART 2",
-      title: "Aqua-Lung 개발 — 분사구문·전치사구",
+      id: "part2", label: "PART 2", title: "Achievement",
       sentences: [
-        {
-          id: "p2s1",
-          // 0:He 1:became 2:intrigued 3:by 4:the 5:mysteries 6:of 7:the 8:ocean 9:and 10:he 11:wanted 12:to 13:explore 14:further
-          text: "He became intrigued by the mysteries of the ocean, and he wanted to explore further.",
-          verbs: ["became", "wanted"],
-          modifiers: [
-            { start: 3, end: 8 },  // "by the mysteries of the ocean"
-            { start: 12, end: 14 } // "to explore further"
-          ]
-        },
-        {
-          id: "p2s2",
-          // 0:However 1:the 2:diving 3:equipment 4:available 5:at 6:that 7:time 8:was 9:insufficient
-          text: "However, the diving equipment available at that time was insufficient.",
-          verbs: ["was"],
-          modifiers: [
-            { start: 4, end: 7 } // "available at that time"
-          ]
-        },
-        {
-          id: "p2s3",
-          // 0:Instead 1:of 2:giving 3:up 4:Cousteau 5:decided 6:to 7:create 8:his 9:own 10:equipment
-          text: "Instead of giving up, Cousteau decided to create his own equipment.",
-          verbs: ["decided"],
-          modifiers: [
-            { start: 0, end: 3 }, // "Instead of giving up"
-            { start: 6, end: 10 } // "to create his own equipment"
-          ]
-        },
-{
-  id: "p2s4",
-  text: "After a long series of failed attempts, he finally succeeded in developing a portable breathing device, which he called the \"Aqua-Lung.\"",
-  // 본동사인 succeeded 하나만 정답으로 인정
-  verbs: ["succeeded"], 
-  modifiers: [
-    { start: 0, end: 6 },  // 전치사구 (수식어)
-    { start: 10, end: 15 }, // 전치사+동명사구 (수식어)
-    { start: 16, end: 20 }  // 관계대명사절 (수식어)
-  ]
-}
+        { id: "p2s4", text: "After a long series of failed attempts, he finally succeeded in developing a portable breathing device, which he called the \"Aqua-Lung.\"", verbs: ["succeeded"] }
       ]
     },
     {
-      id: "part3",
-      label: "PART 3",
-      title: "영향과 교훈 — 복합 수식 구조",
+      id: "part3", label: "PART 3", title: "Inspiration & Lessons",
       sentences: [
-        {
-          id: "p3s1",
-          // 0:Cousteau 1:shared 2:his 3:underwater 4:experiences 5:with 6:the 7:world 8:in 9:a 10:compelling 11:documentary 12:film 13:released 14:in 15:1956
-          text: "Cousteau shared his underwater experiences with the world in a compelling documentary film released in 1956.",
-          verbs: ["shared"],
-          modifiers: [
-            { start: 5, end: 7 },  // "with the world"
-            { start: 8, end: 15 }  // "in a compelling documentary film released in 1956"
-          ]
-        },
-        {
-          id: "p3s2",
-          // 0:It 1:transformed 2:people's 3:perceptions 4:of 5:the 6:ocean 7:and 8:promoted 9:the 10:need 11:for 12:marine 13:conservation
-          text: "It transformed people's perceptions of the ocean and promoted the need for marine conservation.",
-          verbs: ["transformed", "promoted"],
-          modifiers: [
-            { start: 4, end: 6 },  // "of the ocean"
-            { start: 11, end: 13 } // "for marine conservation"
-          ]
-        },
-        {
-          id: "p3s3",
-          // 0:Cousteau's 1:curiosity 2:drove 3:him 4:to 5:constantly 6:challenge 7:himself 8:in 9:new 10:areas 11:and 12:his 13:passion 14:enabled 15:him 16:to 17:make 18:the 19:impossible 20:a 21:reality
-          text: "Cousteau's curiosity drove him to constantly challenge himself in new areas, and his passion enabled him to make the impossible a reality.",
-          verbs: ["drove", "enabled"],
-          modifiers: [
-            { start: 4, end: 10 }, // "to constantly challenge himself in new areas"
-            { start: 16, end: 21 } // "to make the impossible a reality"
-          ]
-        },
-{
-  id: "p3s4",
-  text: "Cousteau's life story inspired me to push the boundaries of what I can do.",
-  // 사용자님의 의견대로 문장의 본동사인 inspired 하나만 정답으로 설정합니다.
-  verbs: ["inspired"], 
-  modifiers: [
-    { start: 5, end: 13 } // "to push ~ can do" 전체를 목적격 보어 및 수식어로 처리
-  ]
-}
+        { id: "p3s3", text: "Cousteau's curiosity drove him to constantly challenge himself in new areas, and his passion enabled him to make the impossible a reality.", verbs: ["drove", "enabled"] },
+        { id: "p3s4", text: "Cousteau's life story inspired me to push the boundaries of what I can do.", verbs: ["inspired"] },
+        { id: "p3s5", text: "Because of him, I am not afraid to try different things in life.", verbs: ["am"] },
+        { id: "p3s6", text: "I will keep exploring until I find what suits me best.", verbs: ["will keep", "find", "suits"] }
       ]
     }
   ]
 };
 
-// ===== QUIZ DATA =====
 const QUIZ_DATA = {
-  "p1s1": {
-    underline: "a French ocean explorer, inventor, and filmmaker",
-    question: "밑줄 친 부분의 문법적 역할은?",
-    options: ["동격 명사구 (Appositive)", "관계대명사절", "분사구문"],
-    answer: 0,
-    explanation: "콤마 뒤에 나오는 'a French ocean explorer...'는 앞의 'Jacques Cousteau'를 재설명하는 동격 명사구입니다."
-  },
-  "p1s2": {
-    underline: "to exploring and documenting",
-    question: "밑줄 친 'to exploring'에서 'to'의 품사는?",
-    options: ["to부정사의 to", "전치사 to", "접속사 to"],
-    answer: 1,
-    explanation: "'dedicated A to B' 구조에서 'to'는 전치사입니다. 뒤에 동명사(-ing)가 온 것이 증거입니다."
-  },
-  "p1s3": {
-    underline: "As a young man",
-    question: "밑줄 친 부분의 역할은?",
-    options: ["주절의 주어", "시간·상황의 부사구 (전치사구)", "명사절 접속사"],
-    answer: 1,
-    explanation: "'As a young man'은 'as + 명사구' 형태의 전치사구로 '젊었을 때'라는 상황·시간 부사어 역할을 합니다."
-  },
-  "p1s4": {
-    underline: "swimming",
-    question: "'began swimming'에서 'swimming'의 문법적 형태는?",
-    options: ["현재분사 (진행)", "동명사 (목적어)", "형용사적 분사"],
-    answer: 1,
-    explanation: "'begin + -ing' 구조에서 '-ing'는 동명사로 동사 'began'의 목적어 역할을 합니다."
-  },
-  "p2s1": {
-    underline: "to explore further",
-    question: "밑줄 친 'to explore further'의 역할은?",
-    options: ["부사적 to부정사 (목적)", "명사적 to부정사 (목적어)", "형용사적 to부정사 (수식)"],
-    answer: 1,
-    explanation: "'wanted to explore'에서 'to explore further'는 동사 'wanted'의 목적어 역할을 하는 명사적 용법의 to부정사입니다."
-  },
-  "p2s2": {
-    underline: "available at that time",
-    question: "밑줄 친 부분이 'equipment'를 수식하는 방식은?",
-    options: ["관계대명사절로 후치 수식", "형용사가 명사 앞에서 수식", "형용사구가 명사 뒤에서 후치 수식"],
-    answer: 2,
-    explanation: "'available'은 형용사이지만 'at that time'이라는 수식어를 동반하여 구(phrase)를 이루면서 앞의 명사 'equipment'를 뒤에서 후치 수식합니다."
-  },
-  "p2s3": {
-    underline: "Instead of giving up",
-    question: "밑줄 친 부분의 문법 구조는?",
-    options: ["분사구문 (Participial Phrase)", "전치사 + 동명사 (Prep + Gerund)", "접속사 + 현재분사"],
-    answer: 1,
-    explanation: "'Instead of'는 전치사구이며, 뒤에 동명사 'giving up'이 와서 'prep + gerund' 구조를 이룹니다."
-  },
-  "p2s4": {
-    underline: "which he called the \"Aqua-Lung\"",
-    question: "밑줄 친 부분의 문법적 역할은?",
-    options: ["관계대명사 계속적 용법 (비제한적)", "관계대명사 한정적 용법 (제한적)", "접속사 + 대명사절"],
-    answer: 0,
-    explanation: "콤마 뒤에 오는 'which'는 계속적 용법(비제한적)으로 앞 명사 'device'에 추가 정보를 설명합니다. '그것을 그는 Aqua-Lung이라 불렀다'는 의미가 덧붙여집니다."
-  },
-  "p3s1": {
-    underline: "released in 1956",
-    question: "밑줄 친 'released in 1956'의 문법 형태는?",
-    options: ["과거분사구 (후치 수식)", "과거시제 동사", "수동태 동사구"],
-    answer: 0,
-    explanation: "'released'는 과거분사로 앞의 명사 'film'을 뒤에서 수식하는 형용사적 역할을 합니다. 'a film [released in 1956]' 구조입니다."
-  },
-  "p3s2": {
-    underline: "for marine conservation",
-    question: "밑줄 친 전치사구가 수식하는 명사는?",
-    options: ["the ocean", "the need", "people's perceptions"],
-    answer: 1,
-    explanation: "'the need for marine conservation'에서 'for marine conservation'은 전치사구로 바로 앞의 명사 'the need'를 수식합니다."
-  },
-  "p3s3": {
-    underline: "to constantly challenge himself in new areas",
-    question: "밑줄 친 to부정사구의 용법은?",
-    options: ["명사적 용법 (주어)", "부사적 용법 (목적어를 보충)", "형용사적 용법 (명사 수식)"],
-    answer: 1,
-    explanation: "'drove him to challenge'는 'drive + 목적어 + to부정사' 구문으로, to부정사가 목적격 보어 역할을 합니다."
-  },
   "p3s4": {
     underline: "what I can do",
-    question: "밑줄 친 'what I can do'의 문법적 성격은?",
+    question: "밑줄 친 부분의 문법적 성격은?",
     options: ["관계대명사 what절 (명사절)", "의문사 what 간접의문문", "접속사 that절"],
     answer: 0,
-    explanation: "'what I can do'는 선행사를 포함한 관계대명사 'what'이 이끄는 명사절로, 전치사 'of'의 목적어 역할을 합니다."
+    explanation: "선행사를 포함한 관계대명사 what이 이끄는 명사절로 전치사 of의 목적어입니다."
+  },
+  "p3s6": {
+    underline: "until I find what suits me best",
+    question: "위 부사절의 특징으로 옳은 것은?",
+    options: ["시간의 부사절에서는 현재가 미래를 대신한다", "가정법 과거 문장이다", "명사절로서 주어 역할을 한다"],
+    answer: 0,
+    explanation: "until이 이끄는 시간의 부사절에서는 미래의 일이라도 현재 시제(find)를 사용합니다."
   }
 };
 
-// ===== QUIZ STATE =====
-let quizAnswers = {};
+let state = {};
+DATA.parts.forEach(p => p.sentences.forEach(s => { state[s.id] = new Set(); }));
 
-// ===== STATE =====
-let state = {}; // sentenceId -> { markedVerbs: Set<tokenIdx> }
-
-// Init state
-DATA.parts.forEach(p => p.sentences.forEach(s => {
-  state[s.id] = { markedVerbs: new Set() };
-}));
-
-// ===== TOKENIZE =====
 function tokenize(text) {
-  // Split preserving punctuation
   const tokens = [];
   const re = /(\s+|[^\s]+)/g;
   let m;
@@ -827,272 +259,91 @@ function tokenize(text) {
   return tokens;
 }
 
-// ===== RENDER =====
 function render() {
   const container = document.getElementById('sentenceContainer');
-  container.innerHTML = '';
-
   DATA.parts.forEach(part => {
     const sec = document.createElement('div');
     sec.className = 'part-section';
-
-    sec.innerHTML = `
-      <div class="part-header">
-        <span class="part-badge">${part.label}</span>
-        <span class="part-title">${part.title}</span>
-      </div>
-    `;
+    sec.innerHTML = `<div class="part-header"><span class="part-badge">${part.label}</span><span class="part-title">${part.title}</span></div>`;
 
     part.sentences.forEach((sent, si) => {
       const card = document.createElement('div');
       card.className = 'sentence-card';
-      card.id = 'card-' + sent.id;
-
+      
       const num = document.createElement('div');
       num.className = 'sentence-num';
-      const numLabel = document.createElement('span');
-      numLabel.textContent = `${part.label} — #${si + 1}`;
-      const cardResetBtn = document.createElement('button');
-      cardResetBtn.className = 'card-reset-btn';
-      cardResetBtn.textContent = '↺ 초기화';
-      cardResetBtn.addEventListener('click', () => {
-        state[sent.id] = { markedVerbs: new Set() };
-        const resultEl = document.getElementById('result-' + sent.id);
-        if (resultEl) resultEl.className = 'card-result';
-        refreshSentence(sent.id);
-        updateProgress();
-      });
-      num.appendChild(numLabel);
-      // 동사 개수 뱃지
-      const verbCount = sent.verbs.length;
-      const verbBadge = document.createElement('span');
-      verbBadge.className = 'verb-count-badge';
-      verbBadge.textContent = `동사 ${verbCount}개`;
-      num.appendChild(verbBadge);
-      num.appendChild(cardResetBtn);
+      num.innerHTML = `<span>#${si+1}</span><span class="verb-count-badge">동사 ${sent.verbs.length}개</span>`;
       card.appendChild(num);
 
       const textEl = document.createElement('div');
       textEl.className = 'sentence-text';
-      textEl.id = 'text-' + sent.id;
-
-      // Build tokens
       const tokens = tokenize(sent.text);
       let wordIdx = 0;
-      const wordTokenEls = [];
-
-      tokens.forEach((tok, ti) => {
+      tokens.forEach((tok) => {
         const span = document.createElement('span');
         span.textContent = tok.raw;
         if (!tok.isSpace) {
-          span.dataset.wordIdx = wordIdx;
-          span.dataset.sentId = sent.id;
           span.className = 'word-token';
-          span.dataset.tokenIdx = ti;
-          wordTokenEls.push({ span, wordIdx, ti });
+          const currentIdx = wordIdx;
+          span.addEventListener('dblclick', () => {
+            if (state[sent.id].has(currentIdx)) state[sent.id].delete(currentIdx);
+            else state[sent.id].add(currentIdx);
+            span.classList.toggle('is-verb');
+          });
           wordIdx++;
         }
         textEl.appendChild(span);
       });
-
-      // Apply state
-      applyStateToTokens(sent.id, wordTokenEls, textEl);
-
-      // Events — verb only
-      textEl.addEventListener('dblclick', e => {
-        const span = e.target.closest('.word-token');
-        if (!span || !span.dataset.wordIdx) return;
-        const wi = parseInt(span.dataset.wordIdx);
-        const st = state[sent.id];
-        if (st.markedVerbs.has(wi)) st.markedVerbs.delete(wi);
-        else st.markedVerbs.add(wi);
-        refreshSentence(sent.id);
-        updateProgress();
-      });
-
-      const resultEl = document.createElement('div');
-      resultEl.className = 'card-result';
-      resultEl.id = 'result-' + sent.id;
-
       card.appendChild(textEl);
-      card.appendChild(resultEl);
 
-      // ===== QUIZ BLOCK =====
-      const quiz = QUIZ_DATA[sent.id];
-      if (quiz) {
-        const qBlock = document.createElement('div');
-        qBlock.className = 'quiz-block';
-        qBlock.id = 'quiz-' + sent.id;
-
-        // Underlined phrase label
-        const uLine = document.createElement('div');
-        uLine.className = 'quiz-underline';
-        uLine.innerHTML = `<span class="quiz-underline-label">밑줄</span> <span class="quiz-underline-text">${quiz.underline}</span>`;
-        qBlock.appendChild(uLine);
-
-        // Question
-        const qText = document.createElement('div');
-        qText.className = 'quiz-question';
-        qText.textContent = quiz.question;
-        qBlock.appendChild(qText);
-
-        // Options
-        const optsWrap = document.createElement('div');
-        optsWrap.className = 'quiz-options';
-        quiz.options.forEach((opt, oi) => {
+      if (QUIZ_DATA[sent.id]) {
+        const q = QUIZ_DATA[sent.id];
+        const qb = document.createElement('div');
+        qb.className = 'quiz-block';
+        qb.innerHTML = `<div class="quiz-underline"><span class="quiz-underline-label">밑줄</span><span class="quiz-underline-text">${q.underline}</span></div>
+                        <div style="font-size:13px; margin-bottom:10px;">${q.question}</div>`;
+        const opts = document.createElement('div');
+        opts.className = 'quiz-options';
+        q.options.forEach((opt, oi) => {
           const btn = document.createElement('button');
           btn.className = 'quiz-opt';
-          btn.dataset.sentId = sent.id;
-          btn.dataset.oi = oi;
-          btn.innerHTML = `<span class="opt-label">${['①','②','③'][oi]}</span> ${opt}`;
-          btn.addEventListener('click', () => selectQuizAnswer(sent.id, oi));
-          optsWrap.appendChild(btn);
+          btn.innerHTML = opt;
+          btn.onclick = () => {
+            if (oi === q.answer) btn.classList.add('correct');
+            else btn.classList.add('wrong');
+            exp.classList.add('show');
+          };
+          opts.appendChild(btn);
         });
-        qBlock.appendChild(optsWrap);
-
-        // Explanation (hidden until answered)
-        const expEl = document.createElement('div');
-        expEl.className = 'quiz-explanation';
-        expEl.id = 'exp-' + sent.id;
-        expEl.textContent = '💡 ' + quiz.explanation;
-        qBlock.appendChild(expEl);
-
-        card.appendChild(qBlock);
+        const exp = document.createElement('div');
+        exp.className = 'quiz-explanation';
+        exp.textContent = "💡 " + q.explanation;
+        qb.appendChild(opts);
+        qb.appendChild(exp);
+        card.appendChild(qb);
       }
-
       sec.appendChild(card);
     });
-
     container.appendChild(sec);
   });
-
-  updateProgress();
 }
 
-function applyStateToTokens(sentId, wordTokenEls, textEl) {
-  const st = state[sentId];
-  const allSpans = textEl.querySelectorAll('.word-token');
-  allSpans.forEach(span => {
-    const wi = parseInt(span.dataset.wordIdx);
-    span.className = 'word-token';
-    if (isNaN(wi)) return;
-    if (st.markedVerbs.has(wi)) span.classList.add('is-verb');
-  });
-}
-
-// ===== QUIZ LOGIC =====
-function selectQuizAnswer(sentId, selectedOi) {
-  const quiz = QUIZ_DATA[sentId];
-  if (!quiz) return;
-  quizAnswers[sentId] = selectedOi;
-
-  // Update button styles
-  document.querySelectorAll(`.quiz-opt[data-sent-id="${sentId}"]`).forEach(btn => {
-    const oi = parseInt(btn.dataset.oi);
-    btn.classList.remove('selected', 'correct', 'wrong');
-    if (oi === quiz.answer) btn.classList.add('correct');
-    else if (oi === selectedOi) btn.classList.add('wrong');
-  });
-
-  // Show explanation
-  const expEl = document.getElementById('exp-' + sentId);
-  if (expEl) expEl.classList.add('show');
-}
-
-function refreshSentence(sentId) {
-  const textEl = document.getElementById('text-' + sentId);
-  if (!textEl) return;
-  const allSpans = textEl.querySelectorAll('.word-token');
-  const wordTokenEls = [];
-  allSpans.forEach(span => {
-    if (span.dataset.wordIdx !== undefined) {
-      wordTokenEls.push({ span, wordIdx: parseInt(span.dataset.wordIdx) });
-    }
-  });
-  applyStateToTokens(sentId, wordTokenEls, textEl);
-}
-
-// ===== PROGRESS =====
-function updateProgress() {
-  let totalSents = 0;
-  let markedSents = 0;
-  DATA.parts.forEach(p => p.sentences.forEach(s => {
-    totalSents++;
-    if (state[s.id].markedVerbs.size > 0) markedSents++;
-  }));
-  const pct = totalSents ? Math.round(markedSents / totalSents * 100) : 0;
-  document.getElementById('progressLabel').textContent = `${markedSents} / ${totalSents} 문장 마킹 완료`;
-  document.getElementById('progressFill').style.width = pct + '%';
-}
-
-// ===== CHECK ANSWERS =====
 function checkAnswers() {
-  let totalPoints = 0;
-  let earnedPoints = 0;
-
+  let correct = 0;
+  let total = 0;
   DATA.parts.forEach(p => p.sentences.forEach(sent => {
-    const st = state[sent.id];
-    let sentPoints = 0, sentEarned = 0;
-
-    // Verb check: 1pt each
+    const tokens = tokenize(sent.text).filter(t => !t.isSpace).map(t => t.raw.replace(/[^a-zA-Z]/g,'').toLowerCase());
     sent.verbs.forEach(v => {
-      const vLower = v.toLowerCase().replace(/[^a-z ]/g, '');
-      const firstVWord = vLower.split(' ')[0];
-      sentPoints += 1;
-      const tokens = tokenize(sent.text).filter(t => !t.isSpace).map(t => t.raw.replace(/[^a-zA-Z]/g,'').toLowerCase());
-      const idx = tokens.findIndex(t => t === firstVWord);
-      if (idx >= 0 && st.markedVerbs.has(idx)) sentEarned += 1;
+      total++;
+      const vWords = v.toLowerCase().split(' ');
+      const firstIdx = tokens.indexOf(vWords[0]);
+      if (state[sent.id].has(firstIdx)) correct++;
     });
-
-    totalPoints += sentPoints;
-    earnedPoints += sentEarned;
-
-    // Show per-card result
-    const resultEl = document.getElementById('result-' + sent.id);
-    if (resultEl) {
-      const cardPct = sentPoints > 0 ? Math.round(sentEarned / sentPoints * 100) : 0;
-      resultEl.className = 'card-result show ' + (cardPct >= 80 ? 'correct' : cardPct >= 40 ? 'partial' : 'wrong');
-      resultEl.textContent = cardPct + '%';
-    }
   }));
-
-  const overall = totalPoints > 0 ? Math.round(earnedPoints / totalPoints * 100) : 0;
-
-  document.getElementById('scoreDisplay').style.display = '';
-  document.getElementById('scoreVal').textContent = overall + '%';
-
-  const emoji = overall >= 90 ? '🏆' : overall >= 70 ? '🎉' : overall >= 50 ? '💪' : '📚';
-  const msg = overall >= 90
-    ? '완벽해요! 동사를 모두 정확히 찾았습니다.'
-    : overall >= 70
-    ? '훌륭해요! 몇 개 동사를 다시 확인해보세요.'
-    : overall >= 50
-    ? '좋은 시작이에요! 동사 찾기를 더 연습해봐요.'
-    : '기초부터 차근차근 다시 해봐요. 동사를 먼저 찾는 연습을 해보세요!';
-
-  document.getElementById('modalEmoji').textContent = emoji;
-  document.getElementById('modalTitle').textContent = '분석 결과';
-  document.getElementById('modalScore').textContent = overall + '%';
-  document.getElementById('modalSub').textContent = msg;
-  document.getElementById('modalOverlay').classList.add('show');
+  document.getElementById('scoreDisplay').textContent = `정확도: ${Math.round(correct/total*100)}%`;
+  alert(`검사 완료! 정확도: ${Math.round(correct/total*100)}%`);
 }
 
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('show');
-}
-
-// ===== RESET =====
-function resetAll() {
-  DATA.parts.forEach(p => p.sentences.forEach(s => {
-    state[s.id] = { markedVerbs: new Set() };
-  }));
-  quizAnswers = {};
-  document.querySelectorAll('.card-result').forEach(el => el.classList.remove('show'));
-  document.getElementById('scoreDisplay').style.display = 'none';
-  render();
-}
-
-// ===== INIT =====
 render();
 </script>
 </body>
