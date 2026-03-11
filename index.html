@@ -6,6 +6,7 @@
 <title>Sentence Scanner — Jacques Cousteau</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
+
 :root{--bg:#f4f6fb;--surface:#fff;--surface2:#edf0f7;--border:#d4daea;--text:#1a2035;--text-dim:#6b7593;--accent:#2563eb;--verb-bg:rgba(220,38,38,.09);--verb-color:#dc2626;--verb-border:#dc2626;--correct:#16a34a;--wrong:#dc2626;--gold:#d97706}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
@@ -87,13 +88,55 @@ header{position:sticky;top:0;z-index:100;background:rgba(244,246,251,.94);backdr
 .modal-sub{font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:22px}
 .modal-close{padding:9px 26px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-family:"Noto Sans KR",sans-serif;font-size:13px;font-weight:700;cursor:pointer}
 .modal-close:hover{background:#1d4ed8}
+
+/* Name modal */
+.name-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;display:flex;align-items:center;justify-content:center}
+.name-modal{background:#fff;border-radius:16px;padding:36px 32px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15)}
+.name-modal h2{font-family:"Libre Baskerville",serif;font-size:20px;margin-bottom:8px;color:var(--text)}
+.name-modal p{font-size:13px;color:var(--text-dim);margin-bottom:24px;line-height:1.6}
+.name-fields{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.name-fields input{padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-family:"Noto Sans KR",sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color .2s}
+.name-fields input:focus{border-color:var(--accent)}
+.name-start-btn{width:100%;padding:11px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-family:"Noto Sans KR",sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.name-start-btn:hover{background:#1d4ed8}
+.submit-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.submit-overlay.show{opacity:1;pointer-events:all}
+.submit-modal{background:#fff;border-radius:16px;padding:32px 28px;max-width:400px;width:90%;text-align:center}
+.submit-modal .s-emoji{font-size:44px;margin-bottom:12px}
+.submit-modal h3{font-family:"Libre Baskerville",serif;font-size:18px;margin-bottom:6px}
+.submit-modal .s-score{font-family:"JetBrains Mono",monospace;font-size:36px;font-weight:700;color:var(--correct);margin:12px 0}
+.submit-modal p{font-size:13px;color:var(--text-dim);margin-bottom:20px;line-height:1.6}
+.submit-btn{padding:10px 28px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-family:"Noto Sans KR",sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin:4px}
+.submit-btn:hover{background:#1d4ed8}
+.submit-btn.cancel{background:transparent;border:1px solid var(--border);color:var(--text-dim)}
+.submit-btn.cancel:hover{border-color:#8090b0;color:var(--text)}
+.save-indicator{position:fixed;top:66px;right:16px;font-size:11px;font-family:"JetBrains Mono",monospace;padding:4px 10px;border-radius:6px;background:rgba(22,163,74,.1);color:var(--correct);border:1px solid rgba(22,163,74,.3);opacity:0;transition:opacity .4s;z-index:99}
+.save-indicator.show{opacity:1}
 </style>
 </head>
 <body>
+
+<!-- 이름 입력 모달 -->
+<div class="name-overlay" id="nameOverlay">
+  <div class="name-modal">
+    <h2>👋 시작하기 전에</h2>
+    <p>학번과 이름을 입력하면<br>선생님께 결과가 자동으로 전달됩니다.</p>
+    <div class="name-fields">
+      <input type="text" id="inputClass" placeholder="학년 반 번호  예) 2-3-15" maxlength="20">
+      <input type="text" id="inputName" placeholder="이름" maxlength="10">
+    </div>
+    <button class="name-start-btn" onclick="startApp()">시작하기 →</button>
+  </div>
+</div>
+
+<!-- 저장 인디케이터 -->
+<div class="save-indicator" id="saveIndicator">✓ 저장됨</div>
+
 <header>
   <div class="logo">Sentence<span>/</span>Scanner</div>
-  <div class="header-hint">더블클릭 → 동사 [V] 표시</div>
+  <div style="font-size:12px;color:var(--text-dim);font-family:'JetBrains Mono',monospace" id="headerName"></div>
 </header>
+
 <div class="container">
   <div class="hero">
     <h1>My Role Model: <em>Jacques Cousteau</em></h1>
@@ -101,20 +144,15 @@ header{position:sticky;top:0;z-index:100;background:rgba(244,246,251,.94);backdr
   </div>
   <div class="instructions">
     <div class="inst-item">🎯 <div><strong>동사 찾기</strong> — 단어를 <strong>더블클릭</strong>하면 빨간색 [V] / 다시 클릭하면 해제</div></div>
-    <div class="inst-item">📝 <div><strong>문법 퀴즈</strong> — 각 문장 아래 <strong>3지선다</strong> 보기를 클릭해 즉시 확인</div></div>
+    <div class="inst-item">📝 <div><strong>문법 퀴즈</strong> — 각 문장 아래 선다형 보기를 클릭해 즉시 확인</div></div>
     <div class="inst-item">✅ <div><strong>동사 채점</strong> — 하단 버튼으로 동사 마킹 <strong>정확도 %</strong> 확인</div></div>
-    <div class="inst-item">🔄 <div><strong>초기화</strong> — 문장별 또는 <strong>전체 초기화</strong> 가능</div></div>
-  </div>
-  <div class="legend" id="legend" style="display:none">
-    채점 결과:
-    <span class="legend-item"><span class="legend-dot ld-correct">V</span> 정답</span>
-    <span class="legend-item"><span class="legend-dot ld-wrong">V</span> 오답 (잘못 표시)</span>
-    <span class="legend-item"><span class="legend-dot ld-missed">V</span> 누락 (못 찾은 동사)</span>
+    <div class="inst-item">📤 <div><strong>결과 제출</strong> — 채점 후 <strong>선생님께 결과 전송</strong></div></div>
   </div>
   <div id="sentenceContainer"></div>
 </div>
+
 <div class="bottom-bar">
-  <button class="check-btn" onclick="checkAnswers()">✓ 정답 확인</button>
+  <button class="check-btn" onclick="checkAnswers()">✓ 채점하기</button>
   <button class="reset-btn" onclick="resetAll()">↺ 전체 초기화</button>
   <div class="progress-wrap">
     <div class="progress-label" id="progressLabel">0 / 0 마킹 완료</div>
@@ -124,16 +162,77 @@ header{position:sticky;top:0;z-index:100;background:rgba(244,246,251,.94);backdr
     정확도 <span class="score-val" id="scoreVal">0%</span>
   </div>
 </div>
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-emoji" id="modalEmoji">🎉</div>
-    <div class="modal-title">분석 결과</div>
-    <div class="modal-score" id="modalScore">0%</div>
-    <div class="modal-sub" id="modalSub"></div>
-    <button class="modal-close" onclick="closeModal()">결과 확인하기</button>
+
+<!-- 채점 결과 + 제출 모달 -->
+<div class="submit-overlay" id="submitOverlay">
+  <div class="submit-modal">
+    <div class="s-emoji" id="subEmoji">🎉</div>
+    <h3 id="subTitle">채점 완료!</h3>
+    <div class="s-score" id="subScore">0%</div>
+    <p id="subMsg"></p>
+    <div>
+      <button class="submit-btn" onclick="submitResult()">📤 선생님께 제출</button>
+      <button class="submit-btn cancel" onclick="closeSubmit()">나중에 제출</button>
+    </div>
   </div>
 </div>
+
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB0is4ahofGDzrXZjzOcLHCzLd9ux-AZ9w",
+  authDomain: "sentence-scanner.firebaseapp.com",
+  databaseURL: "https://sentence-scanner-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "sentence-scanner",
+  storageBucket: "sentence-scanner.firebasestorage.app",
+  messagingSenderId: "770118839113",
+  appId: "1:770118839113:web:5ddee444a81a1e58acc898"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// Firebase 저장 함수를 전역으로 노출
+window._fbSave = async function(studentKey, data) {
+  try {
+    await set(ref(db, 'results/' + studentKey), data);
+    const ind = document.getElementById('saveIndicator');
+    ind.classList.add('show');
+    setTimeout(() => ind.classList.remove('show'), 2000);
+    return true;
+  } catch(e) {
+    console.error('Firebase save error:', e);
+    return false;
+  }
+};
+</script>
+
 <script>
+// ── Student info ──────────────────────────────────────────────
+let studentClass = '';
+let studentName = '';
+let lastScore = 0;
+let lastScoreData = null;
+
+function startApp() {
+  const cls = document.getElementById('inputClass').value.trim();
+  const name = document.getElementById('inputName').value.trim();
+  if (!cls || !name) { alert('학번과 이름을 모두 입력해주세요.'); return; }
+  studentClass = cls;
+  studentName = name;
+  document.getElementById('nameOverlay').style.display = 'none';
+  document.getElementById('headerName').textContent = cls + ' ' + name;
+  render();
+}
+
+function getStudentKey() {
+  // 공백/특수문자 제거하여 Firebase 키로 사용
+  return (studentClass + '_' + studentName).replace(/[^a-zA-Z0-9가-힣_-]/g, '_');
+}
+
+// ── Core JS ────────────────────────────────────────────────────
 const PARTS=[{id:"part1",label:"PART 1",title:"소개 — 동격어구 · 전치사구 · 동명사",sentences:[{id:"s1",num:1,verbCount:1,verbs:["is"],text:"My role model is Jacques Cousteau, a French ocean explorer, inventor, and filmmaker.",underline:"a French ocean explorer, inventor, and filmmaker",quiz:{q:"밑줄 친 부분의 문법적 역할은?",opts:["동격 명사구 (Appositive)","관계대명사절","분사구문"],ans:0,exp:"콤마 뒤 \'a French ocean explorer...\'는 앞의 Jacques Cousteau를 재설명하는 동격 명사구입니다."}},{id:"s2",num:2,verbCount:1,verbs:["dedicated"],text:"He dedicated his life to exploring and documenting the wonders of the underwater world.",underline:"to exploring and documenting",quiz:{q:"\'to exploring\'에서 \'to\'의 품사는?",opts:["to부정사의 to","전치사 to"],ans:1,exp:"\'dedicated A to B\' 구조에서 \'to\'는 전치사입니다. 뒤에 동명사(-ing)가 온 것이 증거입니다."}},{id:"s3",num:3,verbCount:2,verbs:["dreamed","broke"],text:"As a young man, he dreamed of becoming a pilot, but then he broke both of his arms in a terrible car accident.",underline:"As a young man",quiz:{q:"밑줄 친 \'As a young man\'의 문법 역할은?",opts:["주절의 주어","시간·상황의 부사구 (전치사구)","명사절 접속사"],ans:1,exp:"\'As a young man\'은 \'as + 명사구\' 형태의 전치사구로 \'젊었을 때\'라는 부사어 역할을 합니다."}},{id:"s4",num:4,verbCount:1,verbs:["began"],text:"As part of his physical therapy, Cousteau began swimming.",underline:"swimming",quiz:{q:"\'began swimming\'에서 \'swimming\'의 문법 형태는?",opts:["현재분사 (진행)","동명사 (목적어)"],ans:1,exp:"\'begin + -ing\' 구조에서 -ing는 동명사로 동사 \'began\'의 목적어 역할을 합니다."}}]},{id:"part2",label:"PART 2",title:"Aqua-Lung 개발 — to부정사 · 후치수식 · 관계대명사",sentences:[{id:"s5",num:5,verbCount:2,verbs:["became","wanted"],text:"He became intrigued by the mysteries of the ocean, and he wanted to explore further.",underline:"to explore further",quiz:{q:"\'to explore further\'의 to부정사 용법은?",opts:["부사적 용법 (목적)","명사적 용법 (목적어)","형용사적 용법 (수식)"],ans:1,exp:"\'wanted to explore\'에서 to부정사는 동사 \'wanted\'의 목적어 역할을 하는 명사적 용법입니다."}},{id:"s6",num:6,verbCount:1,verbs:["was"],text:"However, the diving equipment available at that time was insufficient.",underline:"available at that time",quiz:{q:"밑줄 친 부분과 바꿔 쓸 수 있는 것은?",opts:["which was available at that time","which available at that time","was available at that time"],ans:0,exp:"형용사구 \'available at that time\'은 관계대명사절 \'which was available at that time\'으로 바꿔 쓸 수 있습니다."}},{id:"s7",num:7,verbCount:1,verbs:["succeeded"],text:"After a long series of failed attempts, he finally succeeded in developing a portable breathing device, which he called the \"Aqua-Lung.\"",underline:"which he called the \"Aqua-Lung\"",quiz:{q:"밑줄 친 \'which he called...\'의 문법적 역할은?",opts:["관계대명사 계속적 용법 (비제한적)","관계대명사 한정적 용법 (제한적)"],ans:0,exp:"콤마 뒤 \'which\'는 계속적 용법(비제한적)으로, 앞 명사 \'device\'에 부가 정보를 덧붙입니다."}}]},{id:"part3",label:"PART 3",title:"영향과 교훈 — 분사 · to부정사 · what절",sentences:[{id:"s8",num:8,verbCount:1,verbs:["shared"],text:"Cousteau shared his underwater experiences with the world in a compelling documentary film released in 1956.",underline:"released in 1956",quiz:{q:"밑줄 친 \'released in 1956\'의 문법 형태는?",opts:["과거분사구 (후치 수식)","과거시제 동사","수동태 동사구"],ans:0,exp:"\'released\'는 과거분사로, 앞의 명사 \'film\'을 뒤에서 수식하는 형용사적 역할을 합니다."}},{id:"s9",num:9,verbCount:2,verbs:["transformed","promoted"],text:"It transformed people\'s perceptions of the ocean and promoted the need for marine conservation.",underline:null,quiz:null},{id:"s10",num:10,verbCount:2,verbs:["drove","enabled"],text:"Cousteau\'s curiosity drove him to constantly challenge himself in new areas, and his passion enabled him to make the impossible a reality.",underline:null,quiz:null},{id:"s11",num:11,verbCount:1,verbs:["inspired"],text:"Cousteau\'s life story inspired me to push the boundaries of what I can do.",underline:"what I can do",quiz:{q:"밑줄 친 \'what I can do\'의 문법적 성격은?",opts:["관계대명사 what절 (명사절)","의문사 what 간접의문문"],ans:0,exp:"\'what I can do\'는 선행사를 포함한 관계대명사 \'what\'이 이끄는 명사절로, 전치사 \'of\'의 목적어 역할을 합니다."}},{id:"s12",num:12,verbCount:1,verbs:["am"],text:"Because of him, I am not afraid to try different things in life.",underline:null,quiz:null},{id:"s13",num:13,verbCount:1,verbs:["will","keep"],verbPhrases:[["will","keep"]],text:"I will keep exploring until I find what suits me best.",underline:null,quiz:null}]}];
 let state={},quizAnswers={};
 function initState(){state={};quizAnswers={};PARTS.forEach(p=>p.sentences.forEach(s=>{state[s.id]={markedVerbs:new Set()}}));}
@@ -228,6 +327,111 @@ st.answerIdx=ansIdx;st.checked=true;total+=st_;earned+=se_;refreshSentence(sent.
 function closeModal(){document.getElementById('modalOverlay').classList.remove('show');}
 function resetAll(){initState();document.querySelectorAll('.card-result').forEach(el=>el.className='card-result');document.getElementById('scoreDisplay').style.display='none';document.getElementById('legend').style.display='none';render();}
 render();
+
+
+// ── Override checkAnswers to capture score ─────────────────────
+const _origCheck = checkAnswers;
+// patch: capture overall score then show submit modal
+function checkAnswers() {
+  let total = 0, earned = 0;
+  PARTS.forEach(p => p.sentences.forEach(sent => {
+    const st = state[sent.id];
+    let st_ = 0, se_ = 0;
+    const wl = tokenize(sent.text).filter(t => !t.isSpace).map(t => t.raw.replace(/[^a-zA-Z]/g,'').toLowerCase());
+    const ansIdx = new Set();
+    const phrases = sent.verbPhrases || sent.verbs.map(v => [v]);
+    phrases.forEach(phrase => {
+      const idxs = []; let from = 0;
+      phrase.forEach(v => { const f = v.toLowerCase().replace(/[^a-z]/g,''); const i = wl.indexOf(f, from); if(i>=0){idxs.push(i);from=i+1;} });
+      idxs.forEach(i => ansIdx.add(i));
+      st_++;
+      if(idxs.length>0 && idxs.some(i => st.markedVerbs.has(i))) se_++;
+    });
+    st.answerIdx = ansIdx; st.checked = true;
+    total += st_; earned += se_;
+    refreshSentence(sent.id);
+    const res = document.getElementById('result-' + sent.id);
+    if(res) {
+      const pct = st_ > 0 ? Math.round(se_/st_*100) : 0;
+      res.className = 'card-result show ' + (pct>=100?'correct':pct>=50?'partial':'wrong');
+      res.textContent = pct + '%';
+    }
+  }));
+
+  const overall = total > 0 ? Math.round(earned/total*100) : 0;
+  lastScore = overall;
+  document.getElementById('scoreDisplay').style.display = '';
+  document.getElementById('scoreVal').textContent = overall + '%';
+
+  // 퀴즈 결과 수집
+  const quizResults = {};
+  PARTS.forEach(p => p.sentences.forEach(s => {
+    if(s.quiz && quizAnswers[s.id] !== undefined) {
+      quizResults[s.id] = {
+        selected: quizAnswers[s.id],
+        correct: quizAnswers[s.id] === s.quiz.ans
+      };
+    }
+  }));
+
+  // 동사 마킹 결과 수집
+  const verbResults = {};
+  PARTS.forEach(p => p.sentences.forEach(s => {
+    const st = state[s.id];
+    const phrases = s.verbPhrases || s.verbs.map(v=>[v]);
+    const wl = tokenize(s.text).filter(t=>!t.isSpace).map(t=>t.raw.replace(/[^a-zA-Z]/g,'').toLowerCase());
+    verbResults[s.id] = phrases.map(phrase => {
+      const idxs=[]; let from=0;
+      phrase.forEach(v=>{const f=v.toLowerCase().replace(/[^a-z]/g,'');const i=wl.indexOf(f,from);if(i>=0){idxs.push(i);from=i+1;}});
+      return idxs.some(i => st.markedVerbs.has(i));
+    });
+  }));
+
+  lastScoreData = {
+    name: studentName,
+    class: studentClass,
+    score: overall,
+    verbResults,
+    quizResults,
+    submittedAt: new Date().toISOString()
+  };
+
+  const emoji = overall>=90?'🏆':overall>=70?'🎉':overall>=50?'💪':'📚';
+  const msg = overall>=90?'완벽해요! 모든 동사를 정확히 찾았습니다.'
+    :overall>=70?'훌륭해요! 몇 개 동사를 다시 확인해보세요.'
+    :overall>=50?'좋은 시작이에요! 접속사(and, but)를 기준으로 절을 나눠보세요.'
+    :'동사를 먼저 찾는 연습을 해보세요. 접속사로 절을 나누면 쉬워집니다!';
+
+  document.getElementById('subEmoji').textContent = emoji;
+  document.getElementById('subScore').textContent = overall + '%';
+  document.getElementById('subMsg').textContent = msg;
+  document.getElementById('submitOverlay').classList.add('show');
+}
+
+async function submitResult() {
+  if (!lastScoreData) return;
+  const btn = document.querySelector('.submit-btn:not(.cancel)');
+  btn.textContent = '전송 중...';
+  btn.disabled = true;
+  const key = getStudentKey() + '_' + Date.now();
+  const ok = await window._fbSave(key, lastScoreData);
+  if (ok) {
+    btn.textContent = '✓ 제출 완료!';
+    btn.style.background = '#16a34a';
+    setTimeout(() => closeSubmit(), 1500);
+  } else {
+    btn.textContent = '❌ 오류 — 다시 시도';
+    btn.disabled = false;
+  }
+}
+
+function closeSubmit() {
+  document.getElementById('submitOverlay').classList.remove('show');
+}
+
+function closeModal() {
+  document.getElementById('submitOverlay').classList.remove('show');
+}
 </script>
 </body>
 </html>
