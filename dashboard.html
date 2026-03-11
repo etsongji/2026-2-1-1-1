@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentence Scanner — 교사 대시보드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f0f4fa;--surface:#fff;--surface2:#e8edf7;--border:#d0d8e8;--text:#1a2035;--text-dim:#6b7593;--accent:#2563eb;--correct:#16a34a;--wrong:#dc2626;--gold:#d97706}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+header{background:#1a2035;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:"JetBrains Mono",monospace;font-size:15px;font-weight:600;color:#60a5fa}
+.logo span{color:#64748b;font-weight:400}
+.header-right{display:flex;align-items:center;gap:12px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.live-label{font-size:12px;color:#94a3b8;font-family:"JetBrains Mono",monospace}
+.refresh-btn{padding:5px 12px;border-radius:6px;border:1px solid #334155;background:transparent;color:#94a3b8;font-size:12px;cursor:pointer;font-family:"Noto Sans KR",sans-serif}
+.refresh-btn:hover{border-color:#60a5fa;color:#60a5fa}
+.clear-btn{padding:5px 12px;border-radius:6px;border:1px solid #ef4444;background:transparent;color:#ef4444;font-size:12px;cursor:pointer;font-family:"Noto Sans KR",sans-serif}
+.clear-btn:hover{background:rgba(239,68,68,.1)}
+
+.container{max-width:1100px;margin:0 auto;padding:24px 20px}
+
+/* Summary cards */
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+@media(max-width:700px){.summary-grid{grid-template-columns:repeat(2,1fr)}}
+.summary-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px}
+.summary-card .label{font-size:12px;color:var(--text-dim);margin-bottom:6px}
+.summary-card .value{font-family:"JetBrains Mono",monospace;font-size:28px;font-weight:700;color:var(--text)}
+.summary-card .sub{font-size:11px;color:var(--text-dim);margin-top:4px}
+.summary-card.highlight .value{color:var(--accent)}
+
+/* Score distribution */
+.section-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px}
+.dist-bar-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:24px}
+.dist-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12px}
+.dist-label{width:60px;text-align:right;color:var(--text-dim);flex-shrink:0}
+.dist-bar-bg{flex:1;height:20px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.dist-bar-fill{height:100%;border-radius:4px;transition:width .5s ease;display:flex;align-items:center;padding-left:6px;font-size:11px;font-weight:600;color:#fff;font-family:"JetBrains Mono",monospace}
+.dist-count{width:30px;text-align:left;color:var(--text-dim);font-family:"JetBrains Mono",monospace}
+
+/* Student table */
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px}
+.table-header{display:grid;grid-template-columns:140px 80px 80px 1fr 80px;gap:0;background:var(--surface2);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:.5px}
+.table-header .th{padding:10px 14px}
+.student-row{display:grid;grid-template-columns:140px 80px 80px 1fr 80px;border-bottom:1px solid var(--border);font-size:13px;transition:background .1s;align-items:center}
+.student-row:last-child{border-bottom:none}
+.student-row:hover{background:#f8faff}
+.student-row .td{padding:10px 14px}
+.score-pill{display:inline-block;padding:2px 9px;border-radius:10px;font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700}
+.score-pill.s-high{background:rgba(22,163,74,.1);color:var(--correct)}
+.score-pill.s-mid{background:rgba(217,119,6,.1);color:var(--gold)}
+.score-pill.s-low{background:rgba(220,38,38,.1);color:var(--wrong)}
+.verb-dots{display:flex;gap:3px;flex-wrap:wrap}
+.vd{width:14px;height:14px;border-radius:3px;flex-shrink:0}
+.vd.ok{background:rgba(22,163,74,.25)}
+.vd.fail{background:rgba(220,38,38,.2)}
+.time-label{font-size:11px;color:var(--text-dim);font-family:"JetBrains Mono",monospace}
+
+/* Sentence analysis */
+.sent-analysis{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:24px}
+.sent-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12px}
+.sent-num{width:28px;text-align:right;font-family:"JetBrains Mono",monospace;color:var(--text-dim);flex-shrink:0}
+.sent-bar-bg{flex:1;height:18px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.sent-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width .5s ease;display:flex;align-items:center;padding-left:6px;font-size:10px;font-weight:600;color:#fff}
+.sent-pct{width:36px;text-align:right;font-family:"JetBrains Mono",monospace;color:var(--text-dim)}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-dim)}
+.empty-state .big{font-size:40px;margin-bottom:12px}
+.empty-state p{font-size:14px;line-height:1.7}
+
+.quiz-analysis{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:24px}
+.quiz-row{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--surface2)}
+.quiz-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.quiz-q-label{font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px}
+.quiz-opt-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;font-size:12px;color:var(--text-dim)}
+.quiz-opt-bar{flex:1;height:14px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.quiz-opt-fill{height:100%;transition:width .4s}
+.quiz-opt-fill.is-ans{background:rgba(22,163,74,.4)}
+.quiz-opt-fill.not-ans{background:rgba(220,38,38,.25)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Sentence<span>/</span>Scanner <span>— 교사 대시보드</span></div>
+  <div class="header-right">
+    <div class="live-dot"></div>
+    <span class="live-label">실시간</span>
+    <button class="refresh-btn" onclick="loadData()">↺ 새로고침</button>
+    <button class="clear-btn" onclick="clearData()">🗑 데이터 초기화</button>
+  </div>
+</header>
+
+<div class="container">
+  <div id="mainContent">
+    <div class="empty-state">
+      <div class="big">📡</div>
+      <p>Firebase에 연결 중입니다...</p>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB0is4ahofGDzrXZjzOcLHCzLd9ux-AZ9w",
+  authDomain: "sentence-scanner.firebaseapp.com",
+  databaseURL: "https://sentence-scanner-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "sentence-scanner",
+  storageBucket: "sentence-scanner.firebasestorage.app",
+  messagingSenderId: "770118839113",
+  appId: "1:770118839113:web:5ddee444a81a1e58acc898"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const resultsRef = ref(db, 'results');
+
+const SENTENCE_LABELS = [
+  "S1. is","S2. dedicated","S3. dreamed/broke","S4. began",
+  "S5. became/wanted","S6. was","S7. succeeded","S8. shared",
+  "S9. transformed/promoted","S10. drove/enabled","S11. inspired",
+  "S12. am","S13. will keep"
+];
+
+const QUIZ_LABELS = {
+  s1:"동격 명사구", s2:"전치사 to", s3:"부사구", s4:"동명사",
+  s5:"명사적 용법", s6:"which was...", s7:"계속적 용법", s8:"과거분사구",
+  s11:"what절 (명사절)"
+};
+
+let allData = [];
+
+// 실시간 리스너
+onValue(resultsRef, (snapshot) => {
+  const raw = snapshot.val();
+  if (!raw) {
+    allData = [];
+  } else {
+    // 같은 학생의 가장 최근 제출만 유지
+    const byStudent = {};
+    Object.entries(raw).forEach(([key, val]) => {
+      const studentId = val.class + '_' + val.name;
+      if (!byStudent[studentId] || val.submittedAt > byStudent[studentId].submittedAt) {
+        byStudent[studentId] = { ...val, _key: key };
+      }
+    });
+    allData = Object.values(byStudent).sort((a,b) => (b.submittedAt||'').localeCompare(a.submittedAt||''));
+  }
+  renderDashboard();
+});
+
+window.loadData = () => {}; // 실시간이므로 수동 새로고침 불필요
+
+window.clearData = async () => {
+  if (!confirm('모든 학생 데이터를 삭제하시겠습니까?')) return;
+  await remove(resultsRef);
+};
+
+function renderDashboard() {
+  const el = document.getElementById('mainContent');
+
+  if (allData.length === 0) {
+    el.innerHTML = `<div class="empty-state">
+      <div class="big">📭</div>
+      <p>아직 제출한 학생이 없습니다.<br>학생들이 채점 후 제출하면 여기에 표시됩니다.</p>
+    </div>`;
+    return;
+  }
+
+  const scores = allData.map(d => d.score || 0);
+  const avg = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+  const maxS = Math.max(...scores);
+  const minS = Math.min(...scores);
+  const above70 = scores.filter(s=>s>=70).length;
+
+  // Score distribution buckets
+  const buckets = [
+    {label:'90-100', min:90, max:100, color:'#16a34a'},
+    {label:'70-89',  min:70, max:89,  color:'#2563eb'},
+    {label:'50-69',  min:50, max:69,  color:'#d97706'},
+    {label:'0-49',   min:0,  max:49,  color:'#dc2626'},
+  ];
+
+  // Per-sentence correct rate
+  const sentCorrect = Array(13).fill(0);
+  const sentTotal = Array(13).fill(0);
+  allData.forEach(d => {
+    if (!d.verbResults) return;
+    Object.entries(d.verbResults).forEach(([sid, arr]) => {
+      const idx = parseInt(sid.replace('s','')) - 1;
+      if (idx < 0 || idx >= 13) return;
+      arr.forEach(v => {
+        sentTotal[idx]++;
+        if (v) sentCorrect[idx]++;
+      });
+    });
+  });
+
+  // Quiz analysis
+  const quizSentIds = ['s1','s2','s3','s4','s5','s6','s7','s8','s11'];
+  const quizStats = {};
+  quizSentIds.forEach(sid => {
+    quizStats[sid] = { total: 0, byOpt: {} };
+  });
+  allData.forEach(d => {
+    if (!d.quizResults) return;
+    Object.entries(d.quizResults).forEach(([sid, res]) => {
+      if (!quizStats[sid]) return;
+      quizStats[sid].total++;
+      const sel = res.selected;
+      quizStats[sid].byOpt[sel] = (quizStats[sid].byOpt[sel]||0) + 1;
+    });
+  });
+
+  // Quiz correct answers map
+  const quizAns = {s1:0, s2:1, s3:1, s4:1, s5:1, s6:0, s7:0, s8:0, s11:0};
+  const quizOptLabels = {
+    s1:["동격 명사구","관계대명사절","분사구문"],
+    s2:["to부정사의 to","전치사 to"],
+    s3:["주절의 주어","부사구","명사절 접속사"],
+    s4:["현재분사","동명사"],
+    s5:["부사적","명사적","형용사적"],
+    s6:["which was...","which(오답)","was(오답)"],
+    s7:["계속적 용법","한정적 용법"],
+    s8:["과거분사구","과거시제","수동태"],
+    s11:["what절(명사절)","간접의문문"],
+  };
+
+  el.innerHTML = `
+  <!-- 요약 카드 -->
+  <div class="summary-grid">
+    <div class="summary-card highlight">
+      <div class="label">제출 학생 수</div>
+      <div class="value">${allData.length}<span style="font-size:16px;color:var(--text-dim)">명</span></div>
+      <div class="sub">실시간 업데이트</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">평균 점수</div>
+      <div class="value" style="color:${avg>=70?'var(--correct)':avg>=50?'var(--gold)':'var(--wrong)'}">${avg}<span style="font-size:16px;color:var(--text-dim)">%</span></div>
+      <div class="sub">최고 ${maxS}% / 최저 ${minS}%</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">70점 이상</div>
+      <div class="value" style="color:var(--correct)">${above70}<span style="font-size:16px;color:var(--text-dim)">명</span></div>
+      <div class="sub">${Math.round(above70/allData.length*100)}%가 통과</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">가장 어려운 문장</div>
+      <div class="value" style="font-size:20px;color:var(--wrong)">
+        ${(() => {
+          let minPct = 101, minIdx = 0;
+          sentCorrect.forEach((c,i) => {
+            if (sentTotal[i] === 0) return;
+            const pct = c/sentTotal[i]*100;
+            if (pct < minPct) { minPct = pct; minIdx = i; }
+          });
+          return 'S' + (minIdx+1);
+        })()}
+      </div>
+      <div class="sub">정답률 가장 낮음</div>
+    </div>
+  </div>
+
+  <!-- 점수 분포 -->
+  <div class="dist-bar-wrap">
+    <div class="section-title">점수 분포</div>
+    ${buckets.map(b => {
+      const cnt = scores.filter(s=>s>=b.min&&s<=b.max).length;
+      const pct = allData.length ? Math.round(cnt/allData.length*100) : 0;
+      return `<div class="dist-row">
+        <div class="dist-label">${b.label}</div>
+        <div class="dist-bar-bg"><div class="dist-bar-fill" style="width:${pct}%;background:${b.color}">${cnt>0?cnt+'명':''}</div></div>
+        <div class="dist-count">${cnt}</div>
+      </div>`;
+    }).join('')}
+  </div>
+
+  <!-- 문장별 정답률 -->
+  <div class="sent-analysis">
+    <div class="section-title">문장별 동사 정답률</div>
+    ${sentCorrect.map((c,i) => {
+      const t = sentTotal[i];
+      const pct = t > 0 ? Math.round(c/t*100) : 0;
+      const color = pct>=80?'#16a34a':pct>=50?'#d97706':'#dc2626';
+      return `<div class="sent-row">
+        <div class="sent-num">S${i+1}</div>
+        <div class="sent-bar-bg"><div class="sent-bar-fill" style="width:${pct}%;background:${color}">${pct>=20?pct+'%':''}</div></div>
+        <div class="sent-pct">${pct}%</div>
+      </div>`;
+    }).join('')}
+  </div>
+
+  <!-- 퀴즈 분석 -->
+  <div class="quiz-analysis">
+    <div class="section-title">문법 퀴즈 선택 분포</div>
+    ${quizSentIds.map(sid => {
+      const stat = quizStats[sid];
+      if (stat.total === 0) return '';
+      const opts = quizOptLabels[sid] || [];
+      const ans = quizAns[sid];
+      return `<div class="quiz-row">
+        <div class="quiz-q-label">S${sid.replace('s','')} — ${QUIZ_LABELS[sid]} (응답 ${stat.total}명)</div>
+        ${opts.map((opt,oi) => {
+          const cnt = stat.byOpt[oi]||0;
+          const pct = stat.total ? Math.round(cnt/stat.total*100) : 0;
+          return `<div class="quiz-opt-row">
+            <span style="width:120px;flex-shrink:0">${['①','②','③'][oi]} ${opt}${oi===ans?' ✓':''}</span>
+            <div class="quiz-opt-bar"><div class="quiz-opt-fill ${oi===ans?'is-ans':'not-ans'}" style="width:${pct}%"></div></div>
+            <span style="width:50px;font-family:'JetBrains Mono',monospace">${cnt}명 ${pct}%</span>
+          </div>`;
+        }).join('')}
+      </div>`;
+    }).filter(Boolean).join('')}
+  </div>
+
+  <!-- 학생 목록 -->
+  <div class="section-title">학생별 결과</div>
+  <div class="table-wrap">
+    <div class="table-header">
+      <div class="th">이름</div>
+      <div class="th">학번</div>
+      <div class="th">점수</div>
+      <div class="th">문장별 동사 정답</div>
+      <div class="th">제출시각</div>
+    </div>
+    ${allData.map(d => {
+      const score = d.score || 0;
+      const pillClass = score>=70?'s-high':score>=50?'s-mid':'s-low';
+      const verbDots = Array(13).fill(null).map((_,i) => {
+        const sid = 's'+(i+1);
+        const res = d.verbResults?.[sid];
+        if (!res) return `<div class="vd" style="background:#e5e7eb" title="S${i+1}: 미응답"></div>`;
+        const allOk = res.every(v=>v);
+        return `<div class="vd ${allOk?'ok':'fail'}" title="S${i+1}: ${allOk?'정답':'오답'}"></div>`;
+      }).join('');
+      const timeStr = d.submittedAt ? d.submittedAt.replace('T',' ').slice(0,16) : '-';
+      return `<div class="student-row">
+        <div class="td" style="font-weight:600">${d.name||'-'}</div>
+        <div class="td" style="color:var(--text-dim);font-size:12px">${d.class||'-'}</div>
+        <div class="td"><span class="score-pill ${pillClass}">${score}%</span></div>
+        <div class="td"><div class="verb-dots">${verbDots}</div></div>
+        <div class="td"><span class="time-label">${timeStr}</span></div>
+      </div>`;
+    }).join('')}
+  </div>
+  `;
+}
+</script>
+</body>
+</html>
